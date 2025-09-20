@@ -4,26 +4,20 @@ import OrderMap from '../components/OrderMap';
 
 function PartnerFeed() {
   const [orders, setOrders] = useState([]);
-  const [partnerName, setPartnerName] = useState('Partner1'); // ya login se fetch kar sakte ho
+  const [partnerName, setPartnerName] = useState('Partner1');
 
   const fetchOrders = async () => {
     try {
       const res = await axios.get('http://localhost:5000/orders');
-      // filter only orders assigned to this partner and not done
       setOrders(res.data.filter(o => o.partnerAssigned && o.partnerName === partnerName && o.status !== 'done'));
-    } catch (err) {
-      console.error(err);
-    }
+    } catch (err) { console.error(err); }
   };
 
   const markDelivered = async (id) => {
     try {
-      const res = await axios.patch(`http://localhost:5000/orders/status/${id}`, { status: 'done' });
-      console.log(res.data);
+      await axios.patch(`http://localhost:5000/orders/status/${id}`, { status: 'done' });
       fetchOrders();
-    } catch (err) {
-      console.error(err);
-    }
+    } catch (err) { console.error(err); }
   };
 
   useEffect(() => { fetchOrders(); }, []);
