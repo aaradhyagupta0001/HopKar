@@ -19,7 +19,10 @@ const orderSchema = new mongoose.Schema({
   userName: String,
   address: String,
   serviceType: String, // press, tiffin, tailor...
-  status: { type: String, default: 'pending' }
+  status: { type: String, default: 'pending' }, // pending / in-progress / done
+  vendorAccepted: { type: Boolean, default: false },
+  partnerAssigned: { type: Boolean, default: false },
+  partnerName: { type: String, default: '' }
 });
 
 const Order = mongoose.model('Order', orderSchema);
@@ -45,6 +48,38 @@ app.get('/orders', async (req, res) => {
   try {
     const orders = await Order.find();
     res.json(orders);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Vendor accept order
+app.post('/orders/accept/:id', async (req, res) => {
+  try {
+    const order = await Order.findByIdAndUpdate(req.params.id, { vendorAccepted: true, status: 'in-progress' }, { new: true });
+    res.json(order);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Partner assign order
+app.post('/orders/assign/:id', async (req, res) => {
+  try {
+    const { partnerName } = req.body;
+    const order = await Order.findByIdAndUpdate(req.params.id, { partnerAssigned: true, partnerName }, { new: true });
+    res.json(order);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Mark order done
+app.patch('/orders/status/:id', async (req, res) => {
+  try {
+    const { status } = req.body; // done
+    const order = await Order.findByIdAndUpdate(req.params.id, { status }, { new: true });
+    res.json(order);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
