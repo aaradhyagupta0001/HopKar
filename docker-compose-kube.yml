@@ -1,0 +1,73 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: hopkar-backend
+    restart: always
+    ports:
+      - "5000:5000"   # dev only
+    env_file:
+      - ./backend/.env
+    depends_on:
+      - mongodb
+      - redis
+    networks:
+      - hopkar-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: hopkar-frontend
+    restart: always
+    ports:
+      - "3000:3000"   # dev only
+    networks:
+      - hopkar-network
+
+  mongodb:
+    image: mongo:6
+    container_name: hopkar-mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: hopkar
+    ports:
+      - "27017:27017"  # dev only
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - hopkar-network
+
+  redis:
+    image: redis:7
+    container_name: hopkar-redis
+    restart: always
+    ports:
+      - "6379:6379"  # dev only
+    networks:
+      - hopkar-network
+
+  loadbalancer:
+    image: nginx:alpine
+    container_name: hopkar-lb
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - backend
+    networks:
+      - hopkar-network
+
+volumes:
+  mongo-data:
+
+networks:
+  hopkar-network:
+    driver: bridge
