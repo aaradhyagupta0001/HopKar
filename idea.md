@@ -1,28 +1,19 @@
-# 📝 Project: HopKar
+# HopKar - Next Level App 🚀
 
-## 🌟 Overview
-HopKar is a hyper-local service + delivery app where users can book tailors ✂️, tiffin 🍱, presswalas 👕 etc. Vendors accept jobs first-come-first-serve. Delivery partners can pick & drop items for a small fee 💸.
+## Completed ✅
+- Basic MVP (PostJob, VendorFeed, PartnerFeed, OrderMap)
+- Axios + Backend connection
+- Blank page & import errors fixed
 
----
+## Pending ⏳
+- Designing / Decorations
+- Multi-tab dashboard
+- Login / Signup flow
+- Additional features & notifications
 
-## ✅ Completed
-- [ ] Project planning & feature list
-- [ ] Name & description finalised
-- [ ] GitHub repo created
-- [ ] Initial README added
-
-## 🚧 In Progress
-- [ ] Design basic UI screens (Login, Post Job, Vendor Feed)
-- [ ] Setup backend (Firebase/Supabase + Node)
-
-## ⏳ Pending / Next
-- [ ] Implement job posting & listing APIs
-- [ ] Vendor accept / partner flow
-- [ ] Map integration for pickup/drop
-- [ ] Testing end-to-end
-
----
-
-## 📅 Notes
-Keep updating this file as tasks move from Pending → In Progress → Completed.  
-Add new features or bugs here so the whole team stays in sync 💫
+## Upcoming Ideas 💡
+- Real-time chat between user and partner
+- Payment integration (UPI / COD)
+- Rating & reviews
+- AI suggestions for faster deliveries
+- Push notifications for order status
